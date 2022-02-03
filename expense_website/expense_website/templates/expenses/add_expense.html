@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %} {% endblock %}
+
+{% block content %}
+
+<div class="container" style="margin-right: 25px; margin-top: 100px">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="{% url 'expenses'%}">Расходы</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">Добавить расходы</li>
+    </ol>
+  </nav>
+
+  <div class="card">
+    <div class="card-body">
+      <form action="{% url 'add-expenses' %}" method="post">
+        {% include 'partials/_messages.html'%} {% csrf_token %}
+        <div class="form-group">
+          <label for="">Сумма</label>
+          <input
+            type="number"
+            class="form-control form-control-sm"
+            name="amount"
+            value="{{values.amount}}"
+          />
+        </div>
+        <div class="form-group">
+          <label for="">Описание</label>
+          <input
+            type="text"
+            class="form-control form-control-sm"
+            name="description"
+            value="{{values.description}}"
+          />
+        </div>
+        <div class="form-group">
+          <label for="">Категория</label>
+          <input
+            type="text"
+            class="form-control form-control-sm"
+            name="category"
+            value="{{values.category}}"
+
+          >
+        </div>
+        <div class="form-group">
+          <label for="">Дата расходов</label>
+          <input
+            type="date"
+            class="form-control form-control-sm"
+            name="expense_date"
+          />
+        </div>
+
+        <input
+          type="submit"
+          value="Сохранять"
+          class="btn btn-primary btn-primary-sm"
+        />
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

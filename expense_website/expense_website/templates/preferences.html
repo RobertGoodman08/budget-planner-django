@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>выберите валюты</title>
+    <link rel="stylesheet" href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <link href="{% static 'assets/vendor/fonts/circular-std/style.css" rel="stylesheet' %}">
+    <link rel="stylesheet" href="{% static 'assets/libs/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/fonts/fontawesome/css/fontawesome-all.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/charts/chartist-bundle/chartist.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/charts/morris-bundle/morris.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/charts/c3charts/c3.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/fonts/flag-icon-css/flag-icon.min.css' %}">
+    <link rel="stylesheet" href="{% static 'dropdown sidebar/style.css' %}">
+</head>
+<body>
+<nav class="navbar navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#" style="color: #007bff; font-size: 30px">
+      ПЛАНИРОВЩИК БЮДЖЕТА
+    </a>
+  </div>
+</nav>
+
+
+    <br>
+    <br>
+    <br>
+    <br>
+<div class="container mt-3" >
+  <h3>выберите валюту</h3>
+  {% include 'partials/_messages.html' %}
+  <form action="{% url 'preferences'%}" method="post">
+    {% csrf_token %}
+    <div class="input-group">
+      <select name="currency" class="custom-select" id="inputGroupSelect04">
+        {% if user_preferences.currency%}
+        <option name="currency" selected value="{{user_preferences.currency}}"
+          >{{user_preferences.currency}}</option
+        >
+        {% endif %} {% for currency in currencies %}
+
+        <option name="currency" value="{{currency.name}} - {{currency.value}}"
+          >{{currency.name}} - {{currency.value}}
+        </option>
+
+        {% endfor %}
+      </select>
+      <div class="input-group-append">
+        <input class="btn btn-outline-secondary" type="submit" value="Save" />
+      </div>
+    </div>
+  </form>
+</div>
+
+<hr />
+
+<div class="alert alert-success" role="alert" >
+  <h1 style="text-align: center">Чтобы продолжить выберите валюту и нажмите save</h1>
+</div>
+
+<script src="{% static 'js/bootstrap.bundle.min.js' %}" ></script>
+</body>
+</html>
+
+

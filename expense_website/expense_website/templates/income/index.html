@@ -1,0 +1,291 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %} Мой доходы {% endblock %}
+
+
+
+{% block content %}
+
+    <div class="dashboard-main-wrapper">
+
+        <div class="dashboard-wrapper">
+            <div class="dashboard-ecommerce">
+                <div class="container-fluid dashboard-content ">
+                    <!-- ============================================================== -->
+                    <!-- pageheader  -->
+                    <!-- ============================================================== -->
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="page-header">
+                                <h2 class="pageheader-title">Мой доходы</h2>
+                                <div class="page-breadcrumb">
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="breadcrumb">
+                                            <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Главная</a></li>
+                                            <li class="breadcrumb-item active" aria-current="page">Мой доходы</li>
+                                        </ol>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ============================================================== -->
+                    <!-- end pageheader  -->
+                    <!-- ============================================================== -->
+                    <div class="ecommerce-widget">
+                        <div class="row">
+                            <!-- ============================================================== -->
+                            <!-- sales  -->
+                            <!-- ============================================================== -->
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
+                                <div class="card border-3 border-top border-top-primary">
+                                    <div class="card-body">
+                                        <div class="metric-value d-inline-block">
+                                            <h1 class="mb-1"><a href="{% url 'export_csv_income' %}">Экспорт в CSV</a></h1>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
+                                <div class="card border-3 border-top border-top-primary">
+                                    <div class="card-body">
+                                        <div class="metric-value d-inline-block">
+                                             <h1 class="mb-1"><a href="{% url 'export_excel_income' %}">Экспорт в Excel</a></h1>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
+                                <div class="card border-3 border-top border-top-primary">
+                                    <div class="card-body">
+                                        <div class="metric-value d-inline-block">
+                                            <h1 class="mb-1"><a href="{% url 'export_pdf_income' %}">Экспорт в PDF</a></h1>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
+                                <div class="card border-3 border-top border-top-primary">
+                                    <div class="card-body">
+                                        <div class="metric-value d-inline-block">
+                                            <h1 class="mb-1"><a href="{% url 'preferences' %}" style="color: black">Выбор валюты</a></h1>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <!-- ============================================================== -->
+
+                            <!-- ============================================================== -->
+
+                                          <!-- recent orders  -->
+                            <!-- ============================================================== -->
+                            <div class="col-xl-15 col-lg-12 col-md-6 col-sm-12 col-12">
+                                <div class="card">
+                                    <h5 class="card-header"><b>Валюта:</b>  {{ currency }}<a  href="{% url 'add-income'%}" class="btn btn-outline-primary" style="float: right">Добавить расходы</a>
+
+                                    <hr>
+                                    <div class="form-group">
+                                         <input type="text" class="form-control" id="searchField" placeholder="Поиск">
+                                    </div>
+
+
+                                    </h5>
+                                    <div class="card-body p-0">
+                                        <div class="table-responsive" id="app-table">
+                                            <table class="table">
+                                                <thead class="bg-light">
+                                                    <tr class="border-0">
+                                                        <th class="border-0">#</th>
+                                                        <th class="border-0">Сумма</th>
+                                                        <th class="border-0">Источники</th>
+                                                        <th class="border-0">Описание</th>
+                                                        <th class="border-0">Дата</th>
+                                                        <th class="border-0">Редактировать</th>
+                                                        <th class="border-0">Удалите</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for income in page_obj%}
+                                                        <tr>
+                                                                <td>{{ income.id }}</td>
+                                                                <td><a href="{% url 'income_details' income.id %}">{{income.amount|truncatechars:7 }}</a></td>
+                                                                <td><a href="{% url 'income_details' income.id %}">{{income.source|truncatechars:7 }}</a></td>
+                                                                <td><a href="{% url 'income_details' income.id %}">{{income.description|truncatechars:7 }}</a></td>
+                                                                <td>{{income.date}}</td>
+                                                                <td><span class="badge-dot  mr-1"></span><a href="{% url 'income-edit' income.id  %}"><b>Редактировать</b></a></td>
+                                                                <td><span class="badge-dot  mr-1"></span><a href="{% url 'income-delete' income.id  %}"><b class="btn btn-danger">Удалите</b></a></td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                    <tr>
+                                                        <td colspan="9">
+                                                            <div class="pagination-container">
+                                                                 <div class="">
+                                                                     Показ страницы {{page_obj.number}} of {{ page_obj.paginator.num_pages }}
+                                                                  </div>
+                                                                  <ul class="pagination align-right float-right mr-auto">
+                                                                      {% if page_obj.has_previous %}
+                                                                          <li {% if page_obj.number == 1 %} class="page-item active" {% endif %}><a class="page-link" href="?page=1">&laquo; 1</a></li>
+                                                                          <li class="page-item"> <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Предыдущий</a></li>
+                                                                      {% endif %}
+                                                                       {% if page_obj.has_next %}
+                                                                          <li class="page-item"> <a class="page-link" href="?page={{ page_obj.next_page_number }}">Следующий</a></li>
+                                                                          <li class="page-item"> <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages}} &raquo;</a></li>
+                                                                       {% endif %}
+
+
+
+                                                                  </ul>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                         <p class="no-results" style="display: none;">Нет результатов</p>
+                                          <div class="table-output">
+
+                                             <table class="table table-stripped table-hover">
+                                                <thead>
+                                                  <tr>
+                                                    <th>#</th>
+                                                    <th>Price</th>
+                                                    <th>Источники</th>
+                                                    <th>Description</th>
+                                                    <th>Date</th>
+                                                    <th>Редактировать</th>
+                                                    <th>Удалите</th>
+                                                  </tr>
+                                                </thead>
+
+
+                                                <tbody  class="table-body">
+
+
+                                                </tbody>
+                                             </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
+                                <div class="card border-3 border-top border-top-primary">
+                                    <div class="card-body">
+                                        <h5 class="text-muted">Все ваши доходы</h5>
+                                        <div class="metric-value d-inline-block">
+                                            <h1 class="mb-1">{{ total|truncatechars:12  }}</h1>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
+                                <div class="card border-3 border-top border-top-primary">
+                                    <div class="card-body">
+                                        <h5 class="text-muted">максимальный доходы</h5>
+                                        <div class="metric-value d-inline-block">
+                                            <h1 class="mb-1">{{ income_total.max_amount|truncatechars:12 }}</h1>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
+                                <div class="card border-3 border-top border-top-primary">
+                                    <div class="card-body">
+                                        <h5 class="text-muted">средний доходы</h5>
+                                        <div class="metric-value d-inline-block">
+                                            <h1 class="mb-1">{{ income_total.avg_amount|truncatechars:12 }}</h1>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
+                                <div class="card border-3 border-top border-top-primary">
+                                    <div class="card-body">
+                                        <h5 class="text-muted">минимальные доходы</h5>
+                                        <div class="metric-value d-inline-block">
+                                            <h1 class="mb-1">{{ income_total.min_amount|truncatechars:12 }}</h1>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        <br>
+                    </div>
+                        <div class="row">
+
+                            <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12">
+                                <div class="card">
+                                    <h5 class="card-header">Мой доходы</h5>
+                                    <div class="card-body">
+                                         {% include 'income_test.html' %}
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-xl-3.4 col-lg-3 col-md-2 col-sm-2 col-2" style="margin-left: 50px; margin-top: 50px">
+                                  <div class="card">
+                                    <div class="card-body" style="margin-left: -13px; margin-top: 2px">
+                                        <img src="{% static 'img/rek.jpg' %}">
+                                    </div>
+                                  </div>
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <div class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                              Nikita © 2022 Все права защищены
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="text-md-right footer-links d-none d-sm-block">
+                                <a href="javascript: void(0);">About</a>
+                                <a href="javascript: void(0);">Support</a>
+                                <a href="javascript: void(0);">Contact Us</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- end footer -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- end wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{% static 'js/searchIncome.js' %}"></script>
+{% endblock %}

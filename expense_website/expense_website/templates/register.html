@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" >
+</head>
+<body>
+
+<div class="px-3 py-2 border-bottom mb-3">
+
+
+        <div class="text-end">
+          <a href="{% url 'login' %}" class="btn btn-primary">Авторизоваться</a>
+          <a href="{% url 'register' %}" class="btn btn-light text-dark me-2">Зарегистрироваться</a>
+        </div>
+      </div>
+</div>
+
+
+
+
+
+
+<div class="row">
+  <div class="col-md-4"></div>
+  <div class="col-md-4">
+    <div class="card mt-5">
+
+
+      <div class="card-body">
+        <div class="card-title py-3">
+          <h4>Зарегистрируйте свой бесплатный аккаунт</h4>
+        </div>
+
+        <form action="{% url 'register' %}" method="post">
+          {% csrf_token %}
+
+          {% include 'partials/_messages.html' %}
+          <div class="form-group">
+            <span>Имя пользователя<label>*</label></span>
+						{{ form.username }}
+          </div>
+          <div class="invalid_feedback invalid-feedback" style="display:none">
+          </div>
+          <p class="text-sm text-success usernameSuccessOutput"></p>
+          <div class="form-group">
+            <span>Email<label>*</label></span>
+						 <input type="email" name="email">
+          </div>
+            <br>
+          <div class="emailFeedBackArea invalid-feedback" style="display:none">
+          </div>
+          <div class="form-group">
+            <span>Пароль<label>*</label></span>
+				{{ form.password1 }}
+          </div>
+           <div class="form-group">
+            <span>Подтвердите пароль<label>*</label></span>
+				{{ form.password2 }}
+          </div>
+            <br>
+            <div class="d-grid gap-1">
+                {{ form.errors }}
+                        <button type="submit" class="btn btn-primary btn-block">Регистрация</button>
+            </div>
+        </form>
+
+      </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4"></div>
+</div>
+
+
+
+<script src="{% static 'relo/register.js' %}"></script>
+<script src="{% static 'js/bootstrap.bundle.min.js' %}" ></script>
+</body>
+</html>

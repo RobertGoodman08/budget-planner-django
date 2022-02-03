@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %} {{ income.source }} {% endblock %}
+
+
+{% block content %}
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+ <div class="container">
+      <div class="row">
+        <div class="col-sm-8">
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="page-header">
+                    <h2 class="pageheader-title">Мой доходы</h2>
+                    <div class="page-breadcrumb">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/" class="breadcrumb-link">Главная</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'income' %}" class="breadcrumb-link">Мой доходы</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">{{ income.source }}</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="card">
+              <div class="card-header">
+                <b>Сумма:</b> {{ income.amount }}
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">{{ income.source }}</h5>
+                <p class="card-text">{{ income.description }}</p>
+                <p class="card-text" style="font-size: 15px"><small class="text-muted">{{ income.date }}</small></p>
+              </div>
+            </div>
+
+        </div>
+        <div class="col-sm-4">
+
+        </div>
+      </div>
+</div>
+
+
+{% endblock %}

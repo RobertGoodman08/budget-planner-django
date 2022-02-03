@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Авторизоваться</title>
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" >
+</head>
+<body>
+
+<div class="px-3 py-2 border-bottom mb-3">
+      <div class="container d-flex flex-wrap justify-content-center">
+
+
+        <div class="text-end">
+          <a href="{% url 'login' %}" class="btn btn-light text-dark me-2">Авторизоваться</a>
+          <a href="{% url 'register' %}" class="btn btn-primary">Зарегистрироваться</a>
+        </div>
+      </div>
+</div>
+
+
+
+
+<div class="row">
+  <div class="col-md-4"></div>
+  <div class="col-md-4">
+    <div class="card mt-5">
+
+
+      <div class="card-body">
+        <div class="card-title py-3">
+          <h4>Войдите в свой аккаунт</h4>
+        </div>
+        <form action="{% url 'login' %}" method="post">
+          {% csrf_token %}
+
+          {% include 'partials/_messages.html' %}
+          <div class="form-group">
+            <input
+              type="text"
+              name="username"
+              placeholder="имя пользователя"
+              id="usernameField"
+              value="{{fieldValues.username}}"
+              class="form-control form-control-lg"
+            />
+          </div>
+            <br>
+          <div class="form-group">
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              class="form-control form-control-lg"
+              id="passwordField"
+            />
+          </div>
+            <br>
+           <div class="d-grid gap-1">
+                <input type="submit" value="Login" class="btn btn-primary" />
+           </div>
+        </form>
+
+      </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4"></div>
+</div>
+
+<script src="{% static 'relo/register.js' %}"></script>
+<script src="{% static 'js/bootstrap.bundle.min.js' %}" ></script>
+</body>
+</html>
